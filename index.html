@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vantage AI Integration - Unlock Your Business's AI Potential</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F9FA; /* Slightly warmer, very light gray for a richer base */
+            color: #1F2937; /* Darker text for contrast */
+        }
+        .gradient-text-gold {
+            /* Vibrant, bright gold gradient for specific text */
+            background: linear-gradient(90deg, #FFD700, #FFBF00); /* Gold to Amber */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gradient-text-primary {
+            /* Retaining a bright primary gradient for contrast */
+            background: linear-gradient(90deg, #4f46e5, #8b5cf6); /* Indigo to Violet */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .card {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out;
+            border: 1px solid #E5E7EB; /* Subtle light border for cards */
+            background-color: #FFFFFF; /* Pure white card background */
+            color: #1F2937; /* Darker text for cards */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* More pronounced, yet soft shadow */
+            border-radius: 1.5rem; /* Even more rounded corners for a modern feel */
+        }
+        .card:hover {
+            transform: translateY(-12px); /* Even more pronounced lift */
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+            border-color: #FFD700; /* Gold border on hover */
+        }
+        .btn-gold {
+            background-color: #FFD700; /* Solid gold button */
+            color: #1F2937; /* Dark text for contrast on gold */
+            transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            font-weight: 700; /* Bolder text for buttons */
+            padding: 0.9rem 2.5rem; /* Slightly larger padding */
+            border-radius: 9999px; /* Full rounded */
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4); /* Initial gold shadow */
+        }
+        .btn-gold:hover {
+            background-color: #FFBF00; /* Slightly darker gold on hover */
+            transform: scale(1.1); /* More pronounced scale */
+            box-shadow: 0 12px 25px rgba(255, 215, 0, 0.6); /* Stronger gold shadow on hover */
+        }
+
+        /* Review Carousel Specific Styles */
+        .reviews-container {
+            position: relative;
+            overflow: hidden; /* Hide scrollbar */
+        }
+        .reviews-wrapper {
+            display: flex;
+            gap: 2.5rem; /* Equivalent to Tailwind gap-10 */
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            overflow-x: auto; /* Enable horizontal scrolling for fallback */
+            scrollbar-width: none; /* Firefox hide scrollbar */
+            -ms-overflow-style: none;  /* IE and Edge hide scrollbar */
+        }
+        .reviews-wrapper::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera hide scrollbar */
+        }
+        .review-card {
+            flex: 0 0 calc(33.333% - 1.666rem); /* Adjust width for 3 cards per view, considering gap */
+            min-width: 300px; /* Minimum width for smaller screens */
+            background-color: #FFFFFF; /* Pure white card background */
+            color: #1F2937; /* Darker text for cards */
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08); /* Softer shadow */
+        }
+        @media (max-width: 1024px) { /* md breakpoint */
+            .review-card {
+                flex: 0 0 calc(50% - 1.25rem); /* 2 cards per view on medium screens */
+            }
+        }
+        @media (max-width: 768px) { /* sm breakpoint */
+            .review-card {
+                flex: 0 0 90%; /* 1 card per view on small screens */
+            }
+        }
+        .scroll-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 215, 0, 0.9); /* Gold with slight transparency */
+            color: #1F2937; /* Dark text for contrast */
+            padding: 0.75rem 1rem;
+            border-radius: 9999px; /* Full rounded */
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        .scroll-button:hover {
+            background-color: #FFBF00; /* Slightly darker gold on hover */
+            transform: translateY(-50%) scale(1.05);
+        }
+        .scroll-button.left {
+            left: -1.5rem; /* Adjust to peek out slightly */
+        }
+        .scroll-button.right {
+            right: -1.5rem; /* Adjust to peek out slightly */
+        }
+
+        /* Translucent, blurry box over the text content */
+        .content-overlay-box {
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly more transparent */
+            backdrop-filter: blur(15px); /* More blur for a deeper modern feel */
+            -webkit-backdrop-filter: blur(15px); /* For Safari compatibility */
+            border-radius: 2rem; /* Even more rounded corners */
+            padding: 4rem; /* Increased padding for more space */
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.18); /* Stronger, softer shadow */
+            border: 1px solid rgba(0, 0, 0, 0.1); /* Slightly more visible subtle dark border */
+            /* New: Subtle dot pattern */
+            background-image: radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.03) 1px, transparent 0); /* Very faint dots */
+            background-size: 12px 12px; /* Adjust dot size and spacing */
+        }
+
+        /* Pure CSS Animated Background for sections */
+        .dynamic-background-lines {
+            position: relative; /* Essential for absolute positioning of ::before */
+            overflow: hidden; /* Hides parts of the animated background outside the section */
+        }
+
+        .dynamic-background-lines::before {
+            content: '';
+            position: absolute;
+            /* Increased size and offset to ensure no gaps on very large screens */
+            top: -100%;
+            left: -100%;
+            width: 300%; 
+            height: 300%;
+            background:
+                /* Layer 1: Fine, subtle white lines - adjusted for denser appearance */
+                repeating-linear-gradient(45deg,
+                    rgba(255, 255, 255, 0.06), /* Very subtle white lines */
+                    rgba(255, 255, 255, 0.06) 2px, /* Line is now 2px wide */
+                    transparent 2px, /* Transparency starts right after the line */
+                    transparent 8px /* Total pattern repeat is 8px (2px line + 6px transparent) */
+                ),
+                /* Layer 2: Slightly wider, subtle black lines - adjusted for denser appearance */
+                repeating-linear-gradient(135deg,
+                    rgba(0, 0, 0, 0.06), /* Very subtle black lines */
+                    rgba(0, 0, 0, 0.06) 4px, /* Line is now 4px wide */
+                    transparent 4px, /* Transparency starts right after the line */
+                    transparent 16px /* Total pattern repeat is 16px (4px line + 12px transparent) */
+                ),
+                /* NEW Layer 3: Even larger, very faint abstract shapes */
+                radial-gradient(ellipse at center,
+                    rgba(255, 255, 255, 0.01) 0%, /* Very subtle white blob */
+                    transparent 70%
+                ),
+                 radial-gradient(circle at top left,
+                    rgba(255, 215, 0, 0.015) 0%, /* Very subtle gold blob */
+                    transparent 60%
+                ),
+                linear-gradient(to right,
+                    rgba(255, 215, 0, 0.04), /* Slightly more visible gold */
+                    rgba(255, 165, 0, 0.04) /* Slightly more visible orange */
+                );
+            background-size: 8px 8px, 16px 16px, 150% 150%, 120% 120%, 100% 100%; /* Match background-size to the new pattern repeat length */
+            background-position: 0 0, 0 0, 0 0, 0 0, 0 0; /* Initial position for all layers */
+            opacity: 1; /* Full opacity on the animated pattern to let underlying section colors influence it more */
+            animation: moveAndRotateLines 80s linear infinite; /* Increased duration to 80s for slower animation */
+            transform-origin: center center; /* Ensures rotation happens from the center */
+            z-index: 0; /* Ensures it's behind the content-overlay-box */
+            pointer-events: none; /* Allows clicks to pass through to elements below it */
+        }
+
+        /* Keyframe animation for moving and rotating the lines */
+        @keyframes moveAndRotateLines {
+            0% {
+                background-position: 0px 0px, 0px 0px, 0% 0%, 0% 0%, 0% 0%; /* Start at 0px for repeating gradients and 0% for larger patterns */
+                transform: rotate(0deg) scale(1);
+            }
+            50% {
+                /* Mid-point values can be anything, as long as 0% and 100% connect */
+                background-position: 4px 4px, -8px -8px, 50% 50%, -20% 30%, 0% 0%; /* Move larger patterns also */
+                transform: rotate(180deg) scale(1.05);
+            }
+            100% {
+                /* Ensures a perfect loop by moving exactly one full pattern repeat */
+                background-position: 8px 8px, 16px 16px, 100% 100%, 0% 0%, 0% 0%; /* Match background-size for perfect loop */
+                transform: rotate(360deg) scale(1);
+            }
+        }
+
+        /* Distinct Base Background Colors for Each Section (More Contrast) */
+        /* These background-colors will be visible through the opacity of .dynamic-background-lines::before */
+        #hero {
+            background-color: #DAEEF3; /* A soft, slightly more saturated light blue */
+        }
+        #services {
+            background-color: #F0F0F0; /* A very light gray, almost white */
+        }
+        #our-approach {
+            background-color: #E2F0F7; /* A slightly deeper light blue-gray */
+        }
+        #reviews {
+            background-color: #F0F0F0; /* Consistent light gray */
+        }
+        #key-benefits {
+            background-color: #DAEEF3; /* Matches Hero background */
+        }
+        #about {
+            background-color: #F0F0F0; /* Consistent light gray */
+        }
+        #contact {
+            background-color: #E2F0F7; /* Consistent deeper light blue-gray */
+        }
+
+        /* Seamless Section Divider */
+        .section-divider {
+            height: 8px; /* Height of the divider */
+            background: linear-gradient(to right, #2C3E50, #1A252E); /* Dark gradient for a sleek look */
+            width: 100%;
+            /* Optional: subtle shadow for depth */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-white shadow-lg py-4 border-b border-gray-100">
+        <nav class="container mx-auto px-4 flex justify-center items-center"> <!-- Changed to justify-center -->
+            <div class="text-3xl font-extrabold text-gray-900 drop-shadow-sm">
+                Vantage AI Integration
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="py-24 md:py-40 text-center rounded-b-3xl shadow-lg dynamic-background-lines">
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="content-overlay-box">
+                <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6 drop-shadow-sm text-gray-900">
+                    Unlock the Full Potential of <span class="gradient-text-gold">AI</span> for Your Business
+                </h1>
+                <p class="text-lg md:text-xl mb-10 max-w-3xl mx-auto text-gray-700">
+                    Vantage AI Integration helps small and medium-sized businesses streamline operations, enhance productivity, and future-proof their company with cutting-edge AI solutions.
+                </p>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSf66t5GtfZi7Ms-wRR8wxKNXSO9bsvAESrhha2i6IWDuAH0_Q/viewform?usp=header" target="_blank" class="btn-gold font-bold py-3 px-8 rounded-full shadow-lg">
+                    Get Started Today
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Divider after Hero -->
+    <div class="section-divider"></div>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 md:py-32 dynamic-background-lines">
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="content-overlay-box">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-900">Our Core Services</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                    <!-- Service 1: Seamless AI Integration -->
+                    <div class="p-8 rounded-xl shadow-md card">
+                        <div class="text-indigo-600 mb-6">
+                            <svg class="w-14 h-14 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-semibold text-center mb-4 text-gray-900">Seamless AI Integration</h3>
+                        <p class="text-gray-700 text-center text-lg mb-6">
+                            We integrate cutting-edge AI tools directly into your existing systems, ensuring a smooth transition and minimal disruption to your daily operations.
+                        </p>
+                    </div>
+
+                    <!-- Service 2: Smart Workflow Automation -->
+                    <div class="p-8 rounded-xl shadow-md card">
+                        <div class="text-purple-600 mb-6">
+                            <svg class="w-14 h-14 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1l-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-semibold text-center mb-4 text-gray-900">Smart Workflow Automation</h3>
+                        <p class="text-gray-700 text-center text-lg mb-6">
+                            Automate repetitive tasks and optimize complex processes with intelligent AI solutions, freeing up your team to focus on strategic initiatives.
+                        </p>
+                    </div>
+
+                    <!-- Service 3: Employee Upskilling -->
+                    <div class="p-8 rounded-xl shadow-md card">
+                        <div class="text-emerald-600 mb-6">
+                            <svg class="w-14 h-14 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-semibold text-center mb-4 text-gray-900">Employee Upskilling</h3>
+                        <p class="text-gray-700 text-center text-lg mb-6">
+                            Empower your workforce with tailored AI tools and prompt-based solutions, enhancing their capabilities and ensuring they thrive in an AI-driven world.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Divider after Services -->
+    <div class="section-divider"></div>
+
+    <!-- New Section: Our Approach -->
+    <section id="our-approach" class="py-20 md:py-32 dynamic-background-lines">
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="content-overlay-box">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-900">Our Tailored Approach</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <div class="p-8 rounded-xl shadow-md card text-center">
+                        <div class="text-blue-600 mb-6">
+                            <svg class="w-14 h-14 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v18m-3-6h6m-6-6h6m6-10a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14z"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-4 text-gray-900">1. Discovery & Strategy</h3>
+                        <p class="text-gray-700 text-lg">
+                            We begin by thoroughly understanding your unique business needs, challenges, and goals to craft a customized AI strategy.
+                        </p>
+                    </div>
+                    <div class="p-8 rounded-xl shadow-md card text-center">
+                        <div class="text-green-600 mb-6">
+                            <svg class="w-14 h-14 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-4 text-gray-900">2. Development & Integration</h3>
+                        <p class="text-gray-700 text-lg">
+                            Our experts develop and seamlessly integrate AI solutions, customizing them to fit your existing infrastructure and workflows.
+                        </p>
+                    </div>
+                    <div class="p-8 rounded-xl shadow-md card text-center">
+                        <div class="text-red-600 mb-6">
+                            <svg class="w-14 h-14 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H1m18 0a2 2 0 012 2v8a2 2 0 01-2 2H1a2 2 0 01-2-2V9a2 2 0 012-2h18z"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-4 text-gray-900">3. Training & Support</h3>
+                        <p class="text-gray-700 text-lg">
+                            We provide comprehensive training for your team and ongoing support to ensure smooth adoption and maximum benefit from AI.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Divider after Our Approach -->
+    <div class="section-divider"></div>
+
+    <!-- Client Reviews Section -->
+    <section id="reviews" class="py-20 md:py-32 dynamic-background-lines">
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="content-overlay-box">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-900">What Our Clients Say</h2>
+                <div class="reviews-container relative overflow-hidden">
+                    <div class="reviews-wrapper" id="reviewsWrapper">
+                        <!-- Review 1 -->
+                        <div class="p-8 rounded-xl shadow-md review-card">
+                            <p class="text-gray-700 italic mb-6 text-lg">
+                                "Vantage AI transformed our operations! Their automation solutions saved us countless hours and significantly boosted our team's efficiency. Truly a game-changer for our small business."
+                            </p>
+                            <div class="flex items-center justify-center">
+                                <img src="https://placehold.co/60x60/F8F9FA/1F2937?text=JD" alt="Client Avatar" class="rounded-full w-12 h-12 mr-4 border-2 border-gold">
+                                <div>
+                                    <p class="font-semibold text-gray-900">John Doe</p>
+                                    <p class="text-gray-600 text-sm">CEO, Tech Solutions Inc.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Review 2 -->
+                        <div class="p-8 rounded-xl shadow-md review-card">
+                            <p class="text-gray-700 italic mb-6 text-lg">
+                                "The AI upskilling program was fantastic. Our employees quickly adapted to new tools, and the prompt-based solutions provided by Vantage AI have made a real difference in our daily tasks."
+                            </p>
+                            <div class="flex items-center justify-center">
+                                <img src="https://placehold.co/60x60/F8F9FA/1F2937?text=AS" alt="Client Avatar" class="rounded-full w-12 h-12 mr-4 border-2 border-gold">
+                                <div>
+                                    <p class="font-semibold text-gray-900">Alice Smith</p>
+                                    <p class="text-gray-600 text-sm">Operations Manager, Creative Marketing</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Review 3 -->
+                        <div class="p-8 rounded-xl shadow-md review-card">
+                            <p class="text-gray-700 italic mb-6 text-lg">
+                                "Seamless integration is an understatement. Vantage AI made the transition to AI-powered workflows incredibly smooth and provided excellent support throughout the process. Highly recommend!"
+                            </p>
+                            <div class="flex items-center justify-center">
+                                <img src="https://placehold.co/60x60/F8F9FA/1F2937?text=MB" alt="Client Avatar" class="rounded-full w-12 h-12 mr-4 border-2 border-gold">
+                                <div>
+                                    <p class="font-semibold text-gray-900">Michael Brown</p>
+                                    <p class="text-gray-600 text-sm">Founder, Innovate Labs</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- New Review 4 -->
+                        <div class="p-8 rounded-xl shadow-md review-card">
+                            <p class="text-gray-700 italic mb-6 text-lg">
+                                "Vantage AI's insights were invaluable. Their tailored approach helped us identify key areas for AI implementation, leading to significant cost savings and improved decision-making."
+                            </p>
+                            <div class="flex items-center justify-center">
+                                <img src="https://placehold.co/60x60/F8F9FA/1F2937?text=SM" alt="Client Avatar" class="rounded-full w-12 h-12 mr-4 border-2 border-gold">
+                                <div>
+                                    <p class="font-semibold text-gray-900">Sarah Miller</p>
+                                    <p class="text-gray-600 text-sm">Director of Strategy, Global Ventures</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- New Review 5 -->
+                        <div class="p-8 rounded-xl shadow-md review-card">
+                            <p class="text-gray-700 italic mb-6 text-lg">
+                                "We were initially hesitant about AI, but Vantage AI made it so approachable. Their team's expertise and dedication to our success were evident every step of the way. Highly satisfied!"
+                            </p>
+                            <div class="flex items-center justify-center">
+                                <img src="https://placehold.co/60x60/F8F9FA/1F2937?text=RW" alt="Client Avatar" class="rounded-full w-12 h-12 mr-4 border-2 border-gold">
+                                <div>
+                                    <p class="font-semibold text-gray-900">Robert White</p>
+                                    <p class="text-gray-600 text-sm">Owner, Local Retail Solutions</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- New Review 6 -->
+                        <div class="p-8 rounded-xl shadow-md review-card">
+                            <p class="text-gray-700 italic mb-6 text-lg">
+                                "The prompt-based solutions are a revelation! Our customer service team is now more efficient and effective than ever, thanks to the custom AI tools provided by Vantage AI."
+                            </p>
+                            <div class="flex items-center justify-center">
+                                <img src="https://placehold.co/60x60/F8F9FA/1F2937?text=EL" alt="Client Avatar" class="rounded-full w-12 h-12 mr-4 border-2 border-gold">
+                                <div>
+                                    <p class="font-semibold text-gray-900">Emily Lee</p>
+                                    <p class="text-gray-600 text-sm">Customer Experience Lead, Connect Hub</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Scroll Buttons -->
+                    <button id="scrollLeftBtn" class="scroll-button left hidden md:block">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    </button>
+                    <button id="scrollRightBtn" class="scroll-button right hidden md:block">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Divider after Reviews -->
+    <div class="section-divider"></div>
+
+    <!-- New Section: Key Benefits -->
+    <section id="key-benefits" class="py-20 md:py-32 dynamic-background-lines">
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="content-overlay-box">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-900">Why Choose Vantage AI?</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    <div class="flex items-start p-6 rounded-xl shadow-md card">
+                        <div class="text-orange-600 mr-6 flex-shrink-0">
+                            <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-semibold mb-2 text-gray-900">Boosted Efficiency</h3>
+                            <p class="text-gray-700 text-lg">
+                                Automate repetitive tasks and optimize workflows to significantly increase your team's productivity and focus on core business.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-start p-6 rounded-xl shadow-md card">
+                        <div class="text-cyan-600 mr-6 flex-shrink-0">
+                            <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.592.951a.8.8 0 01-.293 1.258l-2.602 1.488a.8.8 0 00-.799 0l-2.602-1.488A.8.8 0 019.408 8.95C9.92 8.402 10.89 8 12 8zm0 0V3m0 18v-5M19 12h3M2 12h3m1.66-6.62l-1.41-1.41M12 18l-1.41-1.41M19.07 4.93l-1.41 1.41M4.93 19.07l1.41-1.41"></path></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-semibold mb-2 text-gray-900">Cost Savings</h3>
+                            <p class="text-gray-700 text-lg">
+                                Reduce operational costs and allocate resources more effectively by automating tasks and optimizing decision-making with AI.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-start p-6 rounded-xl shadow-md card">
+                        <div class="text-fuchsia-600 mr-6 flex-shrink-0">
+                            <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-1.04-8.755-2.745M9 6V3m3 3V3m3 3V3M6.364 18.364A9 9 0 0112 15c1.787 0 3.46-.447 4.932-1.22M17.636 18.364A9 9 0 005.364 5.364M12 20.25V21"></path></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-semibold mb-2 text-gray-900">Future-Proof Your Business</h3>
+                            <p class="text-gray-700 text-lg">
+                                Stay ahead of the curve by integrating adaptable AI solutions that evolve with market demands and technological advancements.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-start p-6 rounded-xl shadow-md card">
+                        <div class="text-rose-600 mr-6 flex-shrink-0">
+                            <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-semibold mb-2 text-gray-900">Enhanced Decision Making</h3>
+                            <p class="text-gray-700 text-lg">
+                                Leverage AI-driven insights to make data-backed decisions, improving accuracy and strategic planning across your organization.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Divider after Key Benefits -->
+    <div class="section-divider"></div>
+
+    <!-- About Us Section -->
+    <section id="about" class="py-20 md:py-32 dynamic-background-lines">
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="content-overlay-box flex flex-col items-center gap-16"> <!-- Removed md:flex-row and adjusted gap for single column content -->
+                <div class="md:w-full"> <!-- Changed to full width -->
+                    <h2 class="text-3xl md:text-4xl font-bold mb-8 text-gray-900 text-center">About Us</h2> <!-- Centered text -->
+                    <p class="text-gray-700 text-lg leading-relaxed mb-6 text-center"> <!-- Centered text -->
+                        Vantage AI Integration is dedicated to helping small and medium-sized businesses unlock the full potential of artificial intelligence. We specialize in seamless AI integration, smart workflow automation, and employee upskilling through tailored AI tools and prompt-based solutions.
+                    </p>
+                    <p class="text-gray-700 text-lg leading-relaxed text-center"> <!-- Centered text -->
+                        Our goal is to make cutting-edge AI accessible, practical, and profitable for growing businesses. Whether you're looking to streamline operations, enhance productivity, or future-proof your company, Vantage delivers AI that works for you.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Divider after About Us -->
+    <div class="section-divider"></div>
+
+    <!-- Call to Action / Contact Section -->
+    <section id="contact" class="py-20 md:py-28 dynamic-background-lines rounded-b-3xl shadow-lg">
+        <div class="container mx-auto px-4 relative z-10 text-center"> <!-- Added text-center here -->
+            <div class="content-overlay-box">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-gray-900">Ready to Transform Your Business with AI?</h2>
+                <p class="text-lg md:text-xl mb-10 max-w-2xl mx-auto text-gray-700">
+                    Let's discuss how Vantage AI Integration can help you achieve your goals. Reach out today for a personalized consultation.
+                </p>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSf66t5GtfZi7Ms-wRR8wxKNXSO9bsvAESrhha2i6IWDuAH0_Q/viewform?usp=header" target="_blank" class="btn-gold font-bold py-3 px-8 rounded-full shadow-lg">
+                    Contact Us
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-10 border-t border-gray-800">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 Vantage AI Integration. All rights reserved.</p>
+            <div class="flex justify-center space-x-6 mt-4">
+                <!-- LinkedIn -->
+                <a href="https://linkedin.com/company/vantage-ai-integration" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-amber-400 transition duration-300">
+                    <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" clip-rule="evenodd" />
+                    </svg>
+                    <span class="sr-only">LinkedIn</span>
+                </a>
+                <!-- Instagram -->
+                <a href="https://www.instagram.com/vantageintegrations/" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-amber-400 transition duration-300">
+                    <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M12 0C8.74 0 8.333.014 7.053.072 5.775.132 4.905.333 4.14.636 3.376.94 2.713 1.453 2.056 2.112 1.392 2.766.887 3.433.58 4.198.274 4.965.074 5.834.014 7.112.001 7.51 0 7.899 0 12c0 3.899.014 4.29.072 5.568.06 1.277.261 2.146.564 2.91.306.764.819 1.427 1.473 2.082.66.655 1.327 1.167 2.093 1.47.766.303 1.635.503 2.912.563 1.278.06 1.679.076 5.568.076s4.29-.016 5.568-.076c1.278-.06 2.147-.261 2.91-.563.766-.303 1.432-.816 2.086-1.47.66-.655 1.173-1.322 1.476-2.086.303-.764.503-1.633.563-2.91C23.986 16.29 24 15.899 24 12c0-3.899-.014-4.29-.072-5.568-.06-1.277-.261-2.146-.563-2.91-.303-.764-.816-1.427-1.47-2.082-.655-.66-1.322-1.173-2.086-1.476C18.29 0.274 17.42 0.074 16.142.014 14.862.001 14.461 0 12 0zm0 2.163c3.204 0 3.584.012 4.85.07 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.899.42.42.68.81.899 1.382.166.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.013 3.584-.07 4.85c-.055 1.17-.249 1.805-.415 2.227-.217.562-.477.96-.899 1.382-.42-.42-.81.68-1.382.899-.422.166-1.057.36-2.227.413-1.266.057-1.646.07-4.85.07s-3.584-.013-4.85-.07c-1.17-.055-1.805-.249-2.227-.415-.217-.562-.477-.96-.899-1.382-.42-.42-.81-.68-1.382-.899-.166-.422-.36-1.057-.413-2.227-.057-1.266-.07-1.646-.07-4.85s.013-3.584.07-4.85c.055-1.17.249-1.805.415-2.227.217-.562.477-.96.899-1.382.42-.42.81-.68 1.382-.899.422-.166 1.057-.36 2.227-.413 1.266-.057 1.646-.07 4.85-.07zm0 3.678c-3.407 0-6.162 2.755-6.162 6.162S8.593 18.162 12 18.162s6.162-2.755 6.162-6.162S15.407 5.838 12 5.838zm0 1.88c2.31 0 4.192 1.88 4.192 4.192S14.31 16.108 12 16.108 7.808 14.228 7.808 11.917 9.69 7.726 12 7.726zM16.95 6.227c-.596 0-1.082-.484-1.082-1.08S16.354 4.06 16.95 4.06c.596 0 1.082.484 1.082 1.08s-.485 1.082-1.082 1.082z" clip-rule="evenodd" />
+                    </svg>
+                    <span class="sr-only">TikTok</span>
+                </a>
+            </div>
+            <div class="flex justify-center space-x-6 mt-4">
+                <a href="#" class="hover:text-gold transition duration-300">Privacy Policy</a>
+                <a href="#" class="hover:text-gold transition duration-300">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const reviewsWrapper = document.getElementById('reviewsWrapper');
+        const scrollLeftBtn = document.getElementById('scrollLeftBtn');
+        const scrollRightBtn = document.getElementById('scrollRightBtn');
+
+        // Function to scroll the reviews wrapper
+        function scrollReviews(direction) {
+            const scrollAmount = reviewsWrapper.querySelector('.review-card').offsetWidth + 40; // Card width + gap (gap-10 is 2.5rem = 40px)
+            if (direction === 'left') {
+                reviewsWrapper.scrollLeft -= scrollAmount;
+            } else {
+                reviewsWrapper.scrollLeft += scrollAmount;
+            }
+        }
+
+        // Event listeners for scroll buttons
+        scrollLeftBtn.addEventListener('click', () => scrollReviews('left'));
+        scrollRightBtn.addEventListener('click', () => scrollReviews('right'));
+
+        // Optional: Hide/show scroll buttons based on scroll position
+        function toggleScrollButtons() {
+            if (reviewsWrapper.scrollLeft === 0) {
+                scrollLeftBtn.classList.add('hidden');
+            } else {
+                scrollLeftBtn.classList.remove('hidden');
+            }
+
+            // Check if scrolled to the very end (with a small tolerance)
+            if (reviewsWrapper.scrollLeft + reviewsWrapper.clientWidth >= reviewsWrapper.scrollWidth - 5) {
+                scrollRightBtn.classList.add('hidden');
+            } else {
+                scrollRightBtn.classList.remove('hidden');
+            }
+        }
+
+        // Initial check and re-check on scroll and resize
+        reviewsWrapper.addEventListener('scroll', toggleScrollButtons);
+        window.addEventListener('resize', toggleScrollButtons);
+        window.addEventListener('load', toggleScrollButtons); // Initial check on load
+    </script>
+</body>
+</html>
